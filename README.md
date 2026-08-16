@@ -32,7 +32,7 @@ and a one-page scrolling layout with a real WordPress blog.
 
 - WordPress 6.7+
 - PHP 8.0+
-- Node.js + npm (only needed if you touch the custom blocks — see below)
+- Nothing else — no Node, no npm, no build step, ever.
 
 ## Installation
 
@@ -43,24 +43,24 @@ and a one-page scrolling layout with a real WordPress blog.
 
 ## Local development
 
-Everything except the custom blocks is build-free — edit `templates/`,
-`patterns/`, `inc/`, and `assets/css/style.css` directly, no compile step.
+The entire theme is build-free — edit `templates/`, `patterns/`, `inc/`,
+`assets/css/style.css`, and `blocks/` directly; changes take effect on the
+next page load, no compile step.
 
-The three custom blocks under `src/blocks/` are built with
-`@wordpress/scripts`:
-
-```bash
-npm install        # once, or after changing src/blocks/**
-npm run build       # required after editing any src/blocks/**/*.js
-npm run start        # watch mode while developing a block
-```
+The three custom blocks under `blocks/` register their editor UI as plain
+vanilla JS (`blocks/<name>/edit.js`) written directly against WordPress's
+own global scripts (`wp.blocks`, `wp.element`, `wp.blockEditor`,
+`wp.serverSideRender`) instead of `@wordpress/scripts`/webpack — no JSX,
+no bundling, no `node_modules`. `functions.php` registers each block's
+script with its dependencies spelled out explicitly.
 
 ## Structure
 
 ```
 templates/front-page.html   # the whole one-page site, as real block markup
 parts/, patterns/            # header/footer template parts
-src/blocks/                  # project-grid, testimonials, blog-preview
+blocks/                       # project-grid, testimonials, blog-preview
+                               #   (block.json + plain-JS edit.js + render.php)
 inc/                          # CPTs, meta boxes, contact form handler
 assets/                       # style.css, main.js, self-hosted fonts
 theme.json                    # color palette, typography, layout

@@ -82,16 +82,35 @@ require_once get_template_directory() . '/inc/meta-boxes.php';
 require_once get_template_directory() . '/inc/contact-form.php';
 
 /**
- * Custom dynamic blocks.
+ * Custom dynamic blocks — build-free.
+ *
+ * Each block's editor script is plain vanilla JS (no bundler, no npm)
+ * written directly against WordPress's own global scripts, so it's
+ * registered here with its dependencies spelled out explicitly instead of
+ * relying on a webpack-generated *.asset.php file.
  */
 function tj_register_blocks() {
-	$blocks_dir = get_template_directory() . '/build/blocks';
+	$blocks_dir = get_template_directory() . '/blocks';
+	$blocks     = array( 'project-grid', 'testimonials', 'blog-preview' );
 
-	foreach ( array( 'project-grid', 'testimonials', 'blog-preview' ) as $block ) {
+	foreach ( $blocks as $block ) {
 		$path = $blocks_dir . '/' . $block;
-		if ( file_exists( $path . '/block.json' ) ) {
-			register_block_type( $path );
+
+		if ( ! file_exists( $path . '/block.json' ) ) {
+			continue;
 		}
+
+		$handle = 'tajwar-tajim-' . $block . '-editor';
+
+		wp_register_script(
+			$handle,
+			get_template_directory_uri() . '/blocks/' . $block . '/edit.js',
+			array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-server-side-render', 'wp-i18n' ),
+			filemtime( $path . '/edit.js' ),
+			true
+		);
+
+		register_block_type( $path );
 	}
 }
 add_action( 'init', 'tj_register_blocks' );

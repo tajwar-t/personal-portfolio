@@ -8,6 +8,6 @@
 	"description": "Displays the 3 latest real WordPress blog posts as a preview grid.",
 	"keywords": [ "blog", "posts", "preview" ],
 	"textdomain": "tajwar-tajim",
-	"editorScript": "file:./index.js",
+	"editorScript": "tajwar-tajim-blog-preview-editor",
 	"render": "file:./render.php"
 }
