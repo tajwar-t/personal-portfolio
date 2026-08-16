@@ -1,0 +1,13 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "tajwar-tajim/project-grid",
+	"title": "Project Grid",
+	"category": "widgets",
+	"icon": "grid-view",
+	"description": "Displays the Work/Projects grid, queried live from the Project custom post type.",
+	"keywords": [ "project", "portfolio", "work" ],
+	"textdomain": "tajwar-tajim",
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

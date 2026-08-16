@@ -1,0 +1,15 @@
+/*
+ * Editor-only override. assets/js/main.js's IntersectionObserver-driven
+ * scroll-reveal (.reveal / .reveal-blur) never runs inside the block editor
+ * iframe, so without this every .reveal element would sit permanently at
+ * opacity:0 / translateY(24px) — invisible content, not a missing-styles bug.
+ * Force the "already revealed" state here so authors can see real content.
+ */
+.reveal {
+	opacity: 1 !important;
+	transform: none !important;
+}
+
+.reveal-blur.reveal {
+	filter: none !important;
+}

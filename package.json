@@ -1,0 +1,13 @@
+{
+	"name": "tajwar-tajim",
+	"version": "1.0.0",
+	"description": "Custom dynamic Gutenberg blocks (project-grid, testimonials, blog-preview) for the tajwar-tajim WordPress block theme.",
+	"private": true,
+	"scripts": {
+		"build": "wp-scripts build",
+		"start": "wp-scripts start"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^30.0.0"
+	}
+}
