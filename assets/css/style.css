@@ -41,7 +41,7 @@
   --radius-pill: 999px;
 
   --container: 1220px;
-  --header-h: 80px;
+  --header-h: 67px;
 
   --font-heading: "Archivo", "Space Grotesk", "Inter", sans-serif;
   --font-body: "Inter", sans-serif;
@@ -71,6 +71,10 @@
   --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.45);
   --shadow-glow:
     0 0 0 1px rgba(255, 90, 58, 0.25), 0 8px 32px rgba(255, 90, 58, 0.18);
+}
+
+[data-theme="dark"] .logo img {
+  filter: invert(1);
 }
 
 /* ---------- Reset ---------- */
@@ -331,7 +335,7 @@ h5 {
 }
 .logo-image {
   display: block;
-  height: 32px;
+  height: 40px;
   width: auto;
 }
 
@@ -372,9 +376,8 @@ h5 {
 }
 
 .theme-toggle {
-  width: 40px;
-  height: 40px;
-  display: grid;
+  display: flex;
+  justify-content: center;
   place-items: center;
   border: 1px solid var(--border);
   border-radius: 50%;
@@ -383,6 +386,8 @@ h5 {
     border-color var(--transition),
     color var(--transition),
     transform var(--transition);
+  align-items: center;
+  padding: 10px;
 }
 .theme-toggle:hover {
   color: var(--accent-2);
@@ -1710,6 +1715,7 @@ section {
   }
   .main-nav.open {
     transform: translateX(0);
+    height: 100vh;
   }
   .main-nav ul {
     flex-direction: column;
@@ -1802,9 +1808,12 @@ section {
    children in a flex row for its own UI purposes. A narrow block (like a
    Buttons block) following wide content can get squeezed into leftover
    space on the previous line instead of starting its own, wrapping its
-   text vertically. Forcing full-width prevents that in the editor without
-   affecting the front end (flex-basis is a no-op outside a flex parent). */
-.wp-block-buttons {
+   text vertically. Forcing full-width prevents that in the editor.
+   Scoped to .editor-styles-wrapper (added around editor content by
+   add_editor_style()) so it never reaches the front end — unscoped, this
+   broke the site-header's CTA button on the live site because
+   .header-actions is a real flex row there. */
+.editor-styles-wrapper .wp-block-buttons {
   flex-basis: 100%;
   width: 100%;
 }

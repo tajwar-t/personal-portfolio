@@ -24,23 +24,29 @@ $tj_menu_id  = ! empty( $attributes['menuId'] ) ? (int) $attributes['menuId'] : 
 $tj_cta_text = ! empty( $attributes['ctaText'] ) ? $attributes['ctaText'] : __( "Let's Talk", 'tajwar-tajim' );
 $tj_cta_url  = ! empty( $attributes['ctaUrl'] ) ? $attributes['ctaUrl'] : '#contact';
 
+/*
+ * `container` is deliberately NOT used here: wp_nav_menu()'s container/
+ * container_id/container_aria_label args are only applied on the "found a
+ * menu" path — when it falls back to fallback_cb (e.g. a fresh site where
+ * no menu has been assigned to the `primary` location yet), WP calls the
+ * fallback directly and skips the container wrapping entirely. That
+ * silently dropped id="main-nav" on any site where the menu locations
+ * hadn't been (re)assigned yet, breaking main.js's mobile-menu/scrollspy
+ * `getElementById('main-nav')` lookup. Wrapping the returned markup in our
+ * own <nav> below guarantees #main-nav exists on both paths.
+ */
 $tj_nav_args = array(
-	'container'            => 'nav',
-	'container_class'      => 'main-nav',
-	'container_id'         => 'main-nav',
-	'container_aria_label' => __( 'Primary', 'tajwar-tajim' ),
-	'menu_class'           => '',
-	'fallback_cb'          => 'tj_primary_nav_fallback',
-	'items_wrap'           => '<ul>%3$s</ul>',
-	'depth'                => 1,
-	'echo'                 => false,
+	'container'   => false,
+	'menu_class'  => '',
+	'fallback_cb' => 'tj_primary_nav_fallback',
+	'items_wrap'  => '<ul>%3$s</ul>',
+	'depth'       => 1,
+	'echo'        => false,
+	'theme_location' => 'primary',
 );
 
 if ( $tj_menu_id && wp_get_nav_menu_object( $tj_menu_id ) ) {
-	$tj_nav_args['menu']           = $tj_menu_id;
-	$tj_nav_args['theme_location'] = 'primary';
-} else {
-	$tj_nav_args['theme_location'] = 'primary';
+	$tj_nav_args['menu'] = $tj_menu_id;
 }
 
 $tj_nav_html = wp_nav_menu( $tj_nav_args );
@@ -52,7 +58,9 @@ $tj_nav_html = wp_nav_menu( $tj_nav_args );
 	<div class="container header-inner">
 		<?php tj_logo(); ?>
 
-		<?php echo $tj_nav_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_nav_menu() output is already escaped. ?>
+		<nav class="main-nav" id="main-nav" aria-label="<?php esc_attr_e( 'Primary', 'tajwar-tajim' ); ?>">
+			<?php echo $tj_nav_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_nav_menu() output is already escaped. ?>
+		</nav>
 
 		<div class="header-actions">
 			<button class="theme-toggle" id="theme-toggle" type="button" aria-label="<?php esc_attr_e( 'Switch to dark theme', 'tajwar-tajim' ); ?>" aria-pressed="true">

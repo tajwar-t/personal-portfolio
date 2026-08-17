@@ -69,8 +69,19 @@ add_filter( 'nav_menu_link_attributes', 'tj_primary_nav_link_attributes', 10, 3 
  * Fallback nav output (used only if no menu has been assigned to a
  * location yet in Appearance → Menus) — matches the original hardcoded
  * links exactly, so the site still works correctly out of the box.
+ *
+ * Like WP core's own default fallback (wp_page_menu()), these build the
+ * markup into a string and respect $args['echo'] instead of echoing
+ * unconditionally: wp_nav_menu()'s fallback branch does `return
+ * call_user_func( $args->fallback_cb, (array) $args )` — it does not
+ * apply its own echo/return handling for the fallback path, so that's
+ * entirely on the callback. Echoing unconditionally broke the
+ * `'echo' => false` callers in blocks/site-header|site-footer/render.php:
+ * the fallback's echo fired immediately (at the wrong position in the
+ * output, before any of render.php's own markup) while the render.php
+ * variable meant to capture the returned string stayed empty.
  */
-function tj_primary_nav_fallback() {
+function tj_primary_nav_fallback( $args = array() ) {
 	$links = array(
 		'home'       => array( '#home', __( 'Home', 'tajwar-tajim' ) ),
 		'about'      => array( '#about', __( 'About', 'tajwar-tajim' ) ),
@@ -80,44 +91,62 @@ function tj_primary_nav_fallback() {
 		'blog'       => array( home_url( '/blog' ), __( 'Blog', 'tajwar-tajim' ) ),
 		'contact'    => array( '#contact', __( 'Contact', 'tajwar-tajim' ) ),
 	);
-	echo '<ul>';
+
+	$html = '<ul>';
 	foreach ( $links as $section => $link ) {
-		printf(
+		$html .= sprintf(
 			'<li><a href="%s" class="nav-link" data-section="%s">%s</a></li>',
 			esc_url( $link[0] ),
 			esc_attr( $section ),
 			esc_html( $link[1] )
 		);
 	}
-	echo '</ul>';
-}
+	$html .= '</ul>';
 
-function tj_footer_sitemap_fallback() {
-	$links = array(
-		'#about'                    => __( 'About', 'tajwar-tajim' ),
-		'#services'                 => __( 'Services', 'tajwar-tajim' ),
-		'#work'                     => __( 'Work', 'tajwar-tajim' ),
-		home_url( '/blog' )         => __( 'Blog', 'tajwar-tajim' ),
-		'#contact'                  => __( 'Contact', 'tajwar-tajim' ),
-	);
-	echo '<ul>';
-	foreach ( $links as $url => $label ) {
-		printf( '<li><a href="%s">%s</a></li>', esc_url( $url ), esc_html( $label ) );
+	if ( empty( $args['echo'] ) ) {
+		return $html;
 	}
-	echo '</ul>';
+	echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from esc_url()/esc_attr()/esc_html() above.
 }
 
-function tj_footer_elsewhere_fallback() {
+function tj_footer_sitemap_fallback( $args = array() ) {
 	$links = array(
-		'https://www.fiverr.com/tajimtajwar' => 'Fiverr',
-		'https://github.com/tajwar-t'        => 'GitHub',
+		'#about'            => __( 'About', 'tajwar-tajim' ),
+		'#services'         => __( 'Services', 'tajwar-tajim' ),
+		'#work'             => __( 'Work', 'tajwar-tajim' ),
+		home_url( '/blog' ) => __( 'Blog', 'tajwar-tajim' ),
+		'#contact'          => __( 'Contact', 'tajwar-tajim' ),
+	);
+
+	$html = '<ul class="wp-block-list">';
+	foreach ( $links as $url => $label ) {
+		$html .= sprintf( '<li><a href="%s">%s</a></li>', esc_url( $url ), esc_html( $label ) );
+	}
+	$html .= '</ul>';
+
+	if ( empty( $args['echo'] ) ) {
+		return $html;
+	}
+	echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from esc_url()/esc_html() above.
+}
+
+function tj_footer_elsewhere_fallback( $args = array() ) {
+	$links = array(
+		'https://www.fiverr.com/tajimtajwar'   => 'Fiverr',
+		'https://github.com/tajwar-t'          => 'GitHub',
 		'https://linkedin.com/in/tajwar-tajim' => 'LinkedIn',
 	);
-	echo '<ul>';
+
+	$html = '<ul class="wp-block-list">';
 	foreach ( $links as $url => $label ) {
-		printf( '<li><a href="%s" target="_blank" rel="noopener">%s</a></li>', esc_url( $url ), esc_html( $label ) );
+		$html .= sprintf( '<li><a href="%s" target="_blank" rel="noopener">%s</a></li>', esc_url( $url ), esc_html( $label ) );
 	}
-	echo '</ul>';
+	$html .= '</ul>';
+
+	if ( empty( $args['echo'] ) ) {
+		return $html;
+	}
+	echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from esc_url()/esc_html() above.
 }
 
 /**
