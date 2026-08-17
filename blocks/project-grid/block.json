@@ -2,12 +2,26 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "tajwar-tajim/project-grid",
-	"title": "Project Grid",
+	"title": "Projects Section",
 	"category": "widgets",
 	"icon": "grid-view",
-	"description": "Displays the Work/Projects grid, queried live from the Project custom post type.",
+	"description": "Full Work/Projects section — title, subtitle, category filter tabs, and the grid itself, queried live from a chosen post type.",
 	"keywords": [ "project", "portfolio", "work" ],
 	"textdomain": "tajwar-tajim",
+	"attributes": {
+		"subtitle": {
+			"type": "string",
+			"default": "Selected Work"
+		},
+		"title": {
+			"type": "string",
+			"default": "Projects I'm proud to have shipped"
+		},
+		"postType": {
+			"type": "string",
+			"default": "project"
+		}
+	},
 	"editorScript": "tajwar-tajim-project-grid-editor",
 	"render": "file:./render.php"
 }

@@ -1,0 +1,43 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "tajwar-tajim/site-footer",
+	"title": "Site Footer",
+	"category": "theme",
+	"icon": "layout",
+	"description": "The site footer — brand/tagline, Sitemap + Elsewhere menu columns, newsletter blurb, copyright and credit lines, back-to-top button. Pick which WordPress Menus drive the two columns and edit the copy from the Inspector; the logo/favicon come from Appearance → Site Identity.",
+	"keywords": [ "footer", "nav", "menu", "navigation" ],
+	"textdomain": "tajwar-tajim",
+	"attributes": {
+		"tagline": {
+			"type": "string",
+			"default": "Computer Engineer and Web Developer specializing in WordPress, Shopify, and Magento 2."
+		},
+		"sitemapMenuId": {
+			"type": "number",
+			"default": 0
+		},
+		"elsewhereMenuId": {
+			"type": "number",
+			"default": 0
+		},
+		"newsletterHeading": {
+			"type": "string",
+			"default": "Stay in the loop"
+		},
+		"newsletterText": {
+			"type": "string",
+			"default": "Occasional notes on web dev — no spam."
+		},
+		"copyrightText": {
+			"type": "string",
+			"default": "Tajwar Tajim. All rights reserved."
+		},
+		"creditText": {
+			"type": "string",
+			"default": "Crafted with care, one commit at a time."
+		}
+	},
+	"editorScript": "tajwar-tajim-site-footer-editor",
+	"render": "file:./render.php"
+}

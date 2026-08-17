@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "tajwar-tajim/site-header",
+	"title": "Site Header",
+	"category": "theme",
+	"icon": "menu",
+	"description": "The site header — logo, primary navigation, theme toggle, CTA button, mobile menu, and the floating identity pill. Pick which WordPress Menu drives the nav and edit the CTA button from the Inspector; the logo/favicon come from Appearance → Site Identity.",
+	"keywords": [ "header", "nav", "menu", "navigation" ],
+	"textdomain": "tajwar-tajim",
+	"attributes": {
+		"menuId": {
+			"type": "number",
+			"default": 0
+		},
+		"ctaText": {
+			"type": "string",
+			"default": "Let's Talk"
+		},
+		"ctaUrl": {
+			"type": "string",
+			"default": "#contact"
+		}
+	},
+	"editorScript": "tajwar-tajim-site-header-editor",
+	"render": "file:./render.php"
+}

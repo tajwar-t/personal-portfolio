@@ -2,22 +2,33 @@
 /**
  * Server-side render for `tajwar-tajim/project-grid`.
  *
- * Queries the `project` CPT (all published, no pagination — it's a
- * portfolio grid) and outputs markup matching mockup/index.html's
- * `.project-grid` > `.project-card[data-category]` structure exactly, so
- * assets/js/main.js's filter-tab logic (`data-filter` / `data-category`)
- * keeps working unchanged.
+ * Renders the whole Work/Projects section — subtitle (tag), title (h2),
+ * category filter tabs, and the grid itself — driven entirely by block
+ * attributes (subtitle, title, postType). No Custom HTML block is used
+ * anywhere in this section; everything below is produced by this one
+ * dynamic block, matching mockup/index.html's `.section-heading` /
+ * `.filter-tabs` / `.project-grid` > `.project-card[data-category]`
+ * structure exactly, so assets/js/main.js's filter-tab logic
+ * (`data-filter` / `data-category`) keeps working unchanged.
  *
  * @package Tajwar_Tajim
+ *
+ * @var array $attributes Block attributes (subtitle, title, postType).
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+$tj_subtitle  = ! empty( $attributes['subtitle'] ) ? $attributes['subtitle'] : 'Selected Work';
+$tj_title     = ! empty( $attributes['title'] ) ? $attributes['title'] : "Projects I'm proud to have shipped";
+$tj_post_type = ! empty( $attributes['postType'] ) && post_type_exists( $attributes['postType'] ) ? $attributes['postType'] : 'project';
+
+$tj_has_category_filter = taxonomy_exists( 'project_category' ) && is_object_in_taxonomy( $tj_post_type, 'project_category' );
+
 $tj_project_query = new WP_Query(
 	array(
-		'post_type'              => 'project',
+		'post_type'              => $tj_post_type,
 		'post_status'            => 'publish',
 		'posts_per_page'         => -1,
 		'orderby'                => 'menu_order date',
@@ -36,6 +47,23 @@ $tj_github_svg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a1
 $tj_external_svg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
 ?>
 <div <?php echo get_block_wrapper_attributes(); ?>>
+	<div class="section-heading">
+		<span class="tag reveal"><?php echo esc_html( $tj_subtitle ); ?></span>
+		<h2 class="reveal"><?php echo esc_html( $tj_title ); ?></h2>
+	</div>
+
+	<?php if ( $tj_has_category_filter ) : ?>
+		<?php $tj_terms = get_terms( array( 'taxonomy' => 'project_category', 'hide_empty' => true ) ); ?>
+		<?php if ( ! is_wp_error( $tj_terms ) ) : ?>
+			<div class="filter-tabs reveal" role="tablist" aria-label="<?php esc_attr_e( 'Filter projects by category', 'tajwar-tajim' ); ?>">
+				<button class="filter-tab active" data-filter="all" role="tab" aria-selected="true"><?php esc_html_e( 'All', 'tajwar-tajim' ); ?></button>
+				<?php foreach ( $tj_terms as $tj_term ) : ?>
+					<button class="filter-tab" data-filter="<?php echo esc_attr( $tj_term->slug ); ?>" role="tab" aria-selected="false"><?php echo esc_html( $tj_term->name ); ?></button>
+				<?php endforeach; ?>
+			</div>
+		<?php endif; ?>
+	<?php endif; ?>
+
 	<div class="project-grid">
 		<?php
 		if ( $tj_project_query->have_posts() ) :
@@ -43,9 +71,9 @@ $tj_external_svg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
 				$tj_project_query->the_post();
 
 				$tj_category_slug = 'all';
-				$tj_terms          = get_the_terms( get_the_ID(), 'project_category' );
-				if ( ! is_wp_error( $tj_terms ) && ! empty( $tj_terms ) ) {
-					$tj_category_slug = $tj_terms[0]->slug;
+				$tj_terms_for_post = $tj_has_category_filter ? get_the_terms( get_the_ID(), 'project_category' ) : null;
+				if ( $tj_terms_for_post && ! is_wp_error( $tj_terms_for_post ) && ! empty( $tj_terms_for_post ) ) {
+					$tj_category_slug = $tj_terms_for_post[0]->slug;
 				}
 
 				$tj_github_url = get_post_meta( get_the_ID(), 'tj_github_url', true );
@@ -80,7 +108,9 @@ $tj_external_svg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
 					<?php endif; ?>
 
 					<div class="project-body">
-						<span class="project-tag"><?php echo esc_html( $tj_terms && ! is_wp_error( $tj_terms ) && ! empty( $tj_terms ) ? $tj_terms[0]->name : '' ); ?></span>
+						<?php if ( $tj_terms_for_post && ! is_wp_error( $tj_terms_for_post ) && ! empty( $tj_terms_for_post ) ) : ?>
+							<span class="project-tag"><?php echo esc_html( $tj_terms_for_post[0]->name ); ?></span>
+						<?php endif; ?>
 						<h3><?php the_title(); ?></h3>
 						<p><?php echo esc_html( get_the_excerpt() ); ?></p>
 						<?php if ( ! empty( $tj_stack ) ) : ?>

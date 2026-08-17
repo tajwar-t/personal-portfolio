@@ -142,6 +142,16 @@
     var targets = document.querySelectorAll(".reveal");
     if (!targets.length) return;
 
+    // Cache each counter's real target (its own displayed text — native
+    // WordPress blocks like core/paragraph can't carry a custom data-count
+    // attribute) into a stable dataset value up front, then blank it to 0.
+    // animateCounters always reads from this cache, never from textContent,
+    // so it stays safe to call more than once for the same node.
+    document.querySelectorAll(".stat-num").forEach(function (node) {
+      node.dataset.count = node.textContent.trim();
+      node.textContent = "0";
+    });
+
     if (prefersReducedMotion || !("IntersectionObserver" in window)) {
       targets.forEach(function (el) { el.classList.add("in-view"); });
       animateCounters(document.querySelectorAll(".stat-num"));
@@ -166,7 +176,7 @@
 
   function animateCounters(nodes) {
     nodes.forEach(function (node) {
-      var target = parseInt(node.getAttribute("data-count"), 10) || 0;
+      var target = parseInt(node.dataset.count, 10) || 0;
       var duration = 1400;
       var startTime = null;
 

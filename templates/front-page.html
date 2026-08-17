@@ -35,15 +35,47 @@
 			<!-- /wp:button -->
 		</div>
 		<!-- /wp:buttons -->
+
+		<!-- wp:group {"className":"hero-stats reveal","layout":{"type":"flex","flexWrap":"wrap"}} -->
+		<div class="wp-block-group hero-stats reveal">
+			<!-- wp:group {"className":"stat","layout":{"type":"flex","orientation":"vertical"}} -->
+			<div class="wp-block-group stat">
+				<!-- wp:paragraph {"className":"stat-num"} -->
+				<p class="stat-num">7</p>
+				<!-- /wp:paragraph -->
+				<!-- wp:paragraph {"className":"stat-label"} -->
+				<p class="stat-label">Years Experience</p>
+				<!-- /wp:paragraph -->
+			</div>
+			<!-- /wp:group -->
+
+			<!-- wp:group {"className":"stat","layout":{"type":"flex","orientation":"vertical"}} -->
+			<div class="wp-block-group stat">
+				<!-- wp:paragraph {"className":"stat-num"} -->
+				<p class="stat-num">100</p>
+				<!-- /wp:paragraph -->
+				<!-- wp:paragraph {"className":"stat-label"} -->
+				<p class="stat-label">Websites Delivered</p>
+				<!-- /wp:paragraph -->
+			</div>
+			<!-- /wp:group -->
+
+			<!-- wp:group {"className":"stat","layout":{"type":"flex","orientation":"vertical"}} -->
+			<div class="wp-block-group stat">
+				<!-- wp:paragraph {"className":"stat-num"} -->
+				<p class="stat-num">194</p>
+				<!-- /wp:paragraph -->
+				<!-- wp:paragraph {"className":"stat-label"} -->
+				<p class="stat-label">5-Star Reviews</p>
+				<!-- /wp:paragraph -->
+			</div>
+			<!-- /wp:group -->
+		</div>
+		<!-- /wp:group -->
 	</div>
 	<!-- /wp:group -->
 
 	<!-- wp:html -->
-	<dl class="hero-stats reveal">
-	  <div class="stat"><dt class="stat-num" data-count="7">0</dt><dd class="stat-label">Years Experience</dd></div>
-	  <div class="stat"><dt class="stat-num" data-count="100">0</dt><dd class="stat-label">Websites Delivered</dd></div>
-	  <div class="stat"><dt class="stat-num" data-count="194">0</dt><dd class="stat-label">5-Star Reviews</dd></div>
-	</dl>
 	</div>
 	<a href="#about" class="scroll-indicator" aria-label="Scroll to About section"><span></span>Scroll</a>
 	<!-- /wp:html -->
@@ -74,23 +106,25 @@
 	<!-- wp:group {"className":"container","layout":{"type":"default"}} -->
 	<div class="wp-block-group container">
 
-		<!-- wp:html -->
-		<div class="section-heading">
-		  <span class="tag reveal">About Me</span>
-		  <h2 class="reveal">Turning ideas into <span class="text-gradient">reliable</span>, scalable software.</h2>
+		<!-- wp:group {"className":"section-heading","layout":{"type":"default"}} -->
+		<div class="wp-block-group section-heading">
+			<!-- wp:paragraph {"className":"tag reveal"} -->
+			<p class="tag reveal">About Me</p>
+			<!-- /wp:paragraph -->
+			<!-- wp:heading {"level":2,"className":"reveal"} -->
+			<h2 class="wp-block-heading reveal">Turning ideas into <span class="text-gradient">reliable</span>, scalable software.</h2>
+			<!-- /wp:heading -->
 		</div>
-		<!-- /wp:html -->
+		<!-- /wp:group -->
 
 		<!-- wp:group {"className":"bento-grid","layout":{"type":"default"}} -->
 		<div class="wp-block-group bento-grid">
 
 			<!-- wp:group {"className":"bento-card bento-photo reveal","layout":{"type":"default"}} -->
 			<div class="wp-block-group bento-card bento-photo reveal">
-				<!-- wp:html -->
-				<div class="photo-frame">
-				  <div class="photo-placeholder" role="img" aria-label="Portrait of Tajwar Tajim">TT</div>
-				</div>
-				<!-- /wp:html -->
+				<!-- wp:image {"className":"photo-frame","sizeSlug":"full"} -->
+				<figure class="wp-block-image size-full photo-frame"><img src="/wp-content/themes/tajwar-tajim/assets/images/placeholder-photo.svg" alt="Portrait of Tajwar Tajim"/></figure>
+				<!-- /wp:image -->
 				<!-- wp:paragraph {"className":"photo-badge"} -->
 				<p class="photo-badge">🟢 Open to work</p>
 				<!-- /wp:paragraph -->
@@ -234,15 +268,19 @@
 	<!-- wp:group {"className":"container","layout":{"type":"default"}} -->
 	<div class="wp-block-group container">
 
-		<!-- wp:html -->
-		<div class="section-heading center">
-		  <span class="tag reveal">What I Do</span>
-		  <h2 class="reveal">Services built around your goals</h2>
+		<!-- wp:group {"className":"section-heading center","layout":{"type":"default"}} -->
+		<div class="wp-block-group section-heading center">
+			<!-- wp:paragraph {"className":"tag reveal"} -->
+			<p class="tag reveal">What I Do</p>
+			<!-- /wp:paragraph -->
+			<!-- wp:heading {"level":2,"className":"reveal"} -->
+			<h2 class="wp-block-heading reveal">Services built around your goals</h2>
+			<!-- /wp:heading -->
+			<!-- wp:paragraph {"className":"section-sub reveal"} -->
+			<p class="section-sub reveal">End-to-end web development services, tailored to businesses, startups, and agencies.</p>
+			<!-- /wp:paragraph -->
 		</div>
-		<!-- /wp:html -->
-		<!-- wp:paragraph {"className":"section-sub reveal","align":"center"} -->
-		<p class="section-sub reveal has-text-align-center">End-to-end web development services, tailored to businesses, startups, and agencies.</p>
-		<!-- /wp:paragraph -->
+		<!-- /wp:group -->
 
 		<!-- wp:group {"className":"services-list","layout":{"type":"default"}} -->
 		<div class="wp-block-group services-list">
@@ -397,20 +435,7 @@
 <section id="work" class="wp-block-group work">
 	<!-- wp:group {"className":"container","layout":{"type":"default"}} -->
 	<div class="wp-block-group container">
-		<!-- wp:html -->
-		<div class="section-heading">
-		  <span class="tag reveal">Selected Work</span>
-		  <h2 class="reveal">Projects I'm proud to have shipped</h2>
-		</div>
-		<div class="filter-tabs reveal" role="tablist" aria-label="Filter projects by category">
-		  <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">All</button>
-		  <button class="filter-tab" data-filter="shopify" role="tab" aria-selected="false">Shopify</button>
-		  <button class="filter-tab" data-filter="webapp" role="tab" aria-selected="false">Web Apps</button>
-		  <button class="filter-tab" data-filter="wordpress" role="tab" aria-selected="false">WordPress</button>
-		</div>
-		<!-- /wp:html -->
-
-		<!-- wp:tajwar-tajim/project-grid /-->
+		<!-- wp:tajwar-tajim/project-grid {"subtitle":"Selected Work","title":"Projects I'm proud to have shipped","postType":"project"} /-->
 
 		<!-- wp:buttons {"className":"work-more reveal","layout":{"type":"flex","justifyContent":"center"}} -->
 		<div class="wp-block-buttons work-more reveal">
@@ -429,12 +454,16 @@
 	<!-- wp:group {"className":"container","layout":{"type":"default"}} -->
 	<div class="wp-block-group container">
 
-		<!-- wp:html -->
-		<div class="section-heading">
-		  <span class="tag reveal">Career Path</span>
-		  <h2 class="reveal">Experience &amp; education</h2>
+		<!-- wp:group {"className":"section-heading","layout":{"type":"default"}} -->
+		<div class="wp-block-group section-heading">
+			<!-- wp:paragraph {"className":"tag reveal"} -->
+			<p class="tag reveal">Career Path</p>
+			<!-- /wp:paragraph -->
+			<!-- wp:heading {"level":2,"className":"reveal"} -->
+			<h2 class="wp-block-heading reveal">Experience &amp; education</h2>
+			<!-- /wp:heading -->
 		</div>
-		<!-- /wp:html -->
+		<!-- /wp:group -->
 
 		<!-- wp:group {"className":"timeline","layout":{"type":"default"}} -->
 		<div class="wp-block-group timeline">
@@ -530,12 +559,16 @@
 	<!-- wp:group {"className":"container","layout":{"type":"default"}} -->
 	<div class="wp-block-group container">
 
-		<!-- wp:html -->
-		<div class="section-heading center">
-		  <span class="tag reveal">Testimonials</span>
-		  <h2 class="reveal">What clients say</h2>
+		<!-- wp:group {"className":"section-heading center","layout":{"type":"default"}} -->
+		<div class="wp-block-group section-heading center">
+			<!-- wp:paragraph {"className":"tag reveal"} -->
+			<p class="tag reveal">Testimonials</p>
+			<!-- /wp:paragraph -->
+			<!-- wp:heading {"level":2,"className":"reveal"} -->
+			<h2 class="wp-block-heading reveal">What clients say</h2>
+			<!-- /wp:heading -->
 		</div>
-		<!-- /wp:html -->
+		<!-- /wp:group -->
 
 		<!-- wp:group {"className":"testimonial-slider reveal","layout":{"type":"default"}} -->
 		<div class="wp-block-group testimonial-slider reveal">
@@ -560,12 +593,16 @@
 <section id="blog" class="wp-block-group blog">
 	<!-- wp:group {"className":"container","layout":{"type":"default"}} -->
 	<div class="wp-block-group container">
-		<!-- wp:html -->
-		<div class="section-heading">
-		  <span class="tag reveal">From the Blog</span>
-		  <h2 class="reveal">Latest insights</h2>
+		<!-- wp:group {"className":"section-heading","layout":{"type":"default"}} -->
+		<div class="wp-block-group section-heading">
+			<!-- wp:paragraph {"className":"tag reveal"} -->
+			<p class="tag reveal">From the Blog</p>
+			<!-- /wp:paragraph -->
+			<!-- wp:heading {"level":2,"className":"reveal"} -->
+			<h2 class="wp-block-heading reveal">Latest insights</h2>
+			<!-- /wp:heading -->
 		</div>
-		<!-- /wp:html -->
+		<!-- /wp:group -->
 
 		<!-- wp:tajwar-tajim/blog-preview /-->
 	</div>
